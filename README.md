@@ -1,8 +1,6 @@
 # Kestrel Inspector
 
-[![Kestrel Inspector — promo video (click to play)](media/promo-poster.jpg)](https://github.com/cipheroute/kestrel-inspector/raw/master/media/kestrel-promo-en.mp4)
-
-▶ [Watch the promo video (40 s)](https://github.com/cipheroute/kestrel-inspector/raw/master/media/kestrel-promo-en.mp4)
+https://github.com/user-attachments/assets/da815ce8-2c62-4107-93ab-8113064f2203
 
 | | |
 |---|---|
