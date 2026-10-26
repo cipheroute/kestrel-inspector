@@ -3,13 +3,19 @@
 
 async function autoRow(tool: 'dark' | 'inject', label: string, note: string): Promise<HTMLElement> {
   const host = location.hostname;
-  const granted = await bg<boolean>({ type: 'hasPerm', origins: [`*://${host}/*`] }).catch(() => false);
-  if (granted) {
-    return h('div', { class: 'kv' }, h('span', null, label), h('b', { style: 'font-family:var(--ui)' }, tr('включено', 'on')));
-  }
-  return h('div', { class: 'autobox' },
-    h('div', { class: 'fmeta' }, h('b', { style: 'font-weight:500' }, label), h('span', null, note)),
-    button(tr('Разрешить', 'Allow'), () => bg({ type: 'openPermit', tool, host })));
+  const box = h('div');
+  const render = async () => {
+    const granted = await bg<boolean>({ type: 'hasPerm', origins: [`*://${host}/*`] }).catch(() => false);
+    clear(box);
+    box.append(granted
+      ? h('div', { class: 'kv' }, h('span', null, label), h('b', { style: 'font-family:var(--ui)' }, tr('включено', 'on')))
+      : h('div', { class: 'autobox' },
+        h('div', { class: 'fmeta' }, h('b', { style: 'font-weight:500' }, label), h('span', null, note)),
+        button(tr('Разрешить', 'Allow'), () => bg({ type: 'openPermit', tool, host }))));
+  };
+  await render();
+  onPermsChanged(box, render);
+  return box;
 }
 
 function mountDark(ctx: ToolCtx): void {

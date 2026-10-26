@@ -229,6 +229,15 @@ function handle(msg: any, sender: chrome.runtime.MessageSender): Promise<unknown
   }
 }
 
+// Tell open panels that permissions changed, so "Allow" boxes update without reopening the tool.
+async function broadcastPerms(): Promise<void> {
+  for (const tab of await chrome.tabs.query({})) {
+    if (tab.id != null) chrome.tabs.sendMessage(tab.id, { type: 'permsChanged' }).catch(() => { /* no panel in this tab */ });
+  }
+}
+chrome.permissions.onAdded.addListener(() => { broadcastPerms(); });
+chrome.permissions.onRemoved.addListener(() => { broadcastPerms(); });
+
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse: Reply) => {
   const p = handle(msg, sender);
   if (!p) return false;

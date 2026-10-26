@@ -28,6 +28,16 @@ function mountCookies(ctx: ToolCtx): void {
       rows = pageCookies();
     }
     render();
+    renderMore();
+  }
+
+  function renderMore(): void {
+    clear(moreBox);
+    if (full) return;
+    moreBox.append(h('div', { class: 'autobox' },
+      h('div', { class: 'fmeta' }, h('b', { style: 'font-weight:500' }, tr('Показать все куки', 'Show all cookies')),
+        h('span', null, tr('Сейчас видны только те, что видит сама страница. Скрытые (HttpOnly) — с разрешения.', 'Only cookies the page itself can see are shown. Hidden (HttpOnly) ones need permission.'))),
+      button(tr('Разрешить', 'Allow'), () => bg({ type: 'openPermit', tool: 'cookies', permissions: ['cookies'], host }))));
   }
 
   async function save(row: CookieRow, value: string): Promise<void> {
@@ -68,14 +78,8 @@ function mountCookies(ctx: ToolCtx): void {
   const exportBtn = button(tr('Экспорт JSON', 'Export JSON'), () => downloadBlob(new Blob([JSON.stringify(rows, null, 2)], { type: 'application/json' }), `cookies-${host}.json`), { icon: 'download' });
   const moreBox = h('div');
 
-  load().then(() => {
-    if (!full) {
-      moreBox.append(h('div', { class: 'autobox' },
-        h('div', { class: 'fmeta' }, h('b', { style: 'font-weight:500' }, tr('Показать все куки', 'Show all cookies')),
-          h('span', null, tr('Сейчас видны только те, что видит сама страница. Скрытые (HttpOnly) — с разрешения.', 'Only cookies the page itself can see are shown. Hidden (HttpOnly) ones need permission.'))),
-        button(tr('Разрешить', 'Allow'), () => bg({ type: 'openPermit', tool: 'cookies', permissions: ['cookies'], host }))));
-    }
-  });
+  load();
+  onPermsChanged(list, () => load());
 
   ctx.body.append(search, list, h('div', { class: 'btnrow' }, exportBtn, button(tr('Обновить', 'Refresh'), () => load(), { icon: 'refresh' })), moreBox, status,
     h('p', { class: 'note', style: 'margin:0' }, tr('Нажми на значение, чтобы изменить его.', 'Click a value to edit it.')));

@@ -51,6 +51,16 @@ function bg<T = unknown>(msg: Record<string, unknown>): Promise<T> {
   return chrome.runtime.sendMessage(msg) as Promise<T>;
 }
 
+// Calls cb whenever the user grants or revokes a permission, while el is still on screen.
+function onPermsChanged(el: Element, cb: () => void): void {
+  const listener = (msg: { type?: string }) => {
+    if (msg?.type !== 'permsChanged') return;
+    if (!el.isConnected) { chrome.runtime.onMessage.removeListener(listener); return; }
+    cb();
+  };
+  chrome.runtime.onMessage.addListener(listener);
+}
+
 function downloadBlob(blob: Blob, name: string): void {
   const url = URL.createObjectURL(blob);
   const a = h('a', { href: url, download: name });
