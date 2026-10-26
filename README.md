@@ -9,6 +9,19 @@ dark mode, custom CSS/JS, outlines & grids, screenshots, page images, cookies, J
   are optional and requested only when a tool needs them.
 - The packaged code is plain, unminified JavaScript compiled from the TypeScript in `src/`.
 
+## Install
+
+**Firefox / Zen:** from addons.mozilla.org (in review, link coming).
+
+**Chrome, Edge, Brave, Opera, Vivaldi** (until the Chrome Web Store version):
+
+1. Download `kestrel-inspector-<version>-chrome.zip` from [Releases](https://github.com/cipheroute/kestrel-inspector/releases/latest) and unzip it.
+2. Open `chrome://extensions` (in Edge: `edge://extensions`).
+3. Turn on **Developer mode** (top right).
+4. Click **Load unpacked** and choose the unzipped folder.
+
+**Установка в Chrome и подобных:** скачай `…-chrome.zip` из [релизов](https://github.com/cipheroute/kestrel-inspector/releases/latest), распакуй, открой `chrome://extensions`, включи «Режим разработчика» справа вверху, нажми «Загрузить распакованное» и выбери распакованную папку.
+
 ## Build
 
 Requirements: Node.js 22 or newer, npm.
