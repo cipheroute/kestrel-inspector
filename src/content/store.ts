@@ -50,7 +50,7 @@ async function loadSettings(): Promise<void> {
 }
 
 // Per-site settings (dark mode, custom CSS/JS), keyed by host name.
-interface SiteSettings { dark?: boolean; css?: string; js?: string; jsOn?: boolean; }
+interface SiteSettings { dark?: boolean; css?: string; js?: string; jsOn?: boolean; autoDark?: boolean; autoInject?: boolean; }
 
 async function getSite(host = location.hostname): Promise<SiteSettings> {
   const { sites } = await chrome.storage.local.get('sites') as { sites?: Record<string, SiteSettings> };

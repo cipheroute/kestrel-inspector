@@ -50,7 +50,16 @@
   document.getElementById('cancel')!.addEventListener('click', () => window.close());
   document.getElementById('allow')!.addEventListener('click', async () => {
     const ok = await chrome.permissions.request({ permissions: permissions as chrome.runtime.ManifestPermission[], origins });
-    if (ok && host) await chrome.runtime.sendMessage({ type: 'siteSync', host });
+    if (ok && host) {
+      // Remember that the user agreed to this particular tool running by itself here.
+      const flag = tool === 'dark' ? 'autoDark' : tool === 'inject' ? 'autoInject' : '';
+      if (flag) {
+        const { sites = {} } = await chrome.storage.local.get('sites') as { sites?: Record<string, Record<string, unknown>> };
+        sites[host] = { ...(sites[host] ?? {}), [flag]: true };
+        await chrome.storage.local.set({ sites });
+      }
+      await chrome.runtime.sendMessage({ type: 'siteSync', host });
+    }
     set('title', ok ? tr('Готово', 'Done') : tr('Не разрешено', 'Not allowed'));
     set('why', ok ? tr('Вернись на страницу и повтори действие.', 'Go back to the page and try again.') : '');
     setTimeout(() => window.close(), ok ? 900 : 1600);

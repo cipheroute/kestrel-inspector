@@ -4,11 +4,15 @@
 async function autoRow(tool: 'dark' | 'inject', label: string, note: string): Promise<HTMLElement> {
   const host = location.hostname;
   const box = h('div');
+  const flag = tool === 'dark' ? 'autoDark' : 'autoInject';
   const render = async () => {
-    const granted = await bg<boolean>({ type: 'hasPerm', origins: [`*://${host}/*`] }).catch(() => false);
+    const access = await bg<boolean>({ type: 'hasPerm', origins: [`*://${host}/*`] }).catch(() => false);
+    const on = access && !!(await getSite())[flag];
     clear(box);
-    box.append(granted
-      ? h('div', { class: 'kv' }, h('span', null, label), h('b', { style: 'font-family:var(--ui)' }, tr('включено', 'on')))
+    box.append(on
+      ? h('div', { class: 'autobox' },
+        h('div', { class: 'fmeta' }, h('b', { style: 'font-weight:500' }, label), h('span', null, tr('Включено для этого сайта.', 'On for this site.'))),
+        button(tr('Выключить', 'Turn off'), async () => { await setSite({ [flag]: false }); await render(); }))
       : h('div', { class: 'autobox' },
         h('div', { class: 'fmeta' }, h('b', { style: 'font-weight:500' }, label), h('span', null, note)),
         button(tr('Разрешить', 'Allow'), () => bg({ type: 'openPermit', tool, host }))));

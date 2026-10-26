@@ -37,7 +37,9 @@ img,video,picture,canvas,iframe,embed,object,svg image,[style*="background-image
 
 const OUTLINE_CSS = `*{outline:1px solid rgba(91,124,255,.55)!important;outline-offset:-1px!important}`;
 
-interface SiteConfig { dark?: boolean; css?: string; js?: string; jsOn?: boolean; }
+// autoDark / autoInject: the user agreed to that tool running by itself on this site.
+// Site access alone is not enough — it may have been granted for cookies.
+interface SiteConfig { dark?: boolean; css?: string; js?: string; jsOn?: boolean; autoDark?: boolean; autoInject?: boolean; }
 
 function fontCss(): string {
   const url = chrome.runtime.getURL('fonts/Unbounded.ttf');
@@ -83,7 +85,7 @@ async function syncSite(host: string): Promise<boolean> {
   const id = `site-${host}`;
   try { await chrome.scripting.unregisterContentScripts({ ids: [id] }); } catch { /* not registered */ }
   const cfg = await siteConfig(host);
-  const needed = !!(cfg.dark || cfg.css || (cfg.js && cfg.jsOn));
+  const needed = !!((cfg.dark && cfg.autoDark) || ((cfg.css || (cfg.js && cfg.jsOn)) && cfg.autoInject));
   const granted = await chrome.permissions.contains({ origins: [hostPattern(host)] });
   if (!needed || !granted) return false;
   await chrome.scripting.registerContentScripts([{ id, matches: [hostPattern(host)], js: ['js/site-runner.js'], runAt: 'document_start' }]);
@@ -93,9 +95,9 @@ async function syncSite(host: string): Promise<boolean> {
 async function applySite(tabId: number, frameId: number, host: string): Promise<void> {
   const cfg = await siteConfig(host);
   const target = { tabId, frameIds: [frameId] };
-  if (cfg.dark) await chrome.scripting.insertCSS({ target, css: DARK_CSS });
-  if (cfg.css) await chrome.scripting.insertCSS({ target, css: cfg.css });
-  if (cfg.js && cfg.jsOn) await runPageScript(tabId, cfg.js);
+  if (cfg.dark && cfg.autoDark) await chrome.scripting.insertCSS({ target, css: DARK_CSS });
+  if (cfg.css && cfg.autoInject) await chrome.scripting.insertCSS({ target, css: cfg.css });
+  if (cfg.js && cfg.jsOn && cfg.autoInject) await runPageScript(tabId, cfg.js);
 }
 
 // Runs user code in the page itself. The page's own CSP still applies, as it should.
@@ -208,7 +210,7 @@ function handle(msg: any, sender: chrome.runtime.MessageSender): Promise<unknown
       return chrome.windows.create({ url: chrome.runtime.getURL(`permit.html?${q}`), type: 'popup', width: 460, height: 420 }).then(() => true);
     }
     case 'siteSync':
-      return syncSite(msg.host);
+      return syncSite(msg.host).then((r) => { broadcastPerms(); return r; });
     case 'siteApply': {
       if (tabId == null || !sender.url) return null;
       return applySite(tabId, sender.frameId ?? 0, new URL(sender.url).hostname).then(() => true);
