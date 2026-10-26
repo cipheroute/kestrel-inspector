@@ -1,5 +1,14 @@
 # Kestrel Inspector
 
+[![Kestrel Inspector — promo video (click to play)](media/promo-poster.jpg)](https://github.com/cipheroute/kestrel-inspector/raw/master/media/kestrel-promo-en.mp4)
+
+▶ [Watch the promo video (40 s)](https://github.com/cipheroute/kestrel-inspector/raw/master/media/kestrel-promo-en.mp4)
+
+| | |
+|---|---|
+| ![CSS Inspector](media/1-css-inspector.png) | ![Color Picker](media/2-color-picker.png) |
+| ![Ruler](media/3-ruler.png) | ![Device View](media/4-device-view-foldable.png) |
+
 Free toolkit for web developers and designers, in a panel on any page: CSS inspector, color picker,
 ruler, fonts, site stack, SEO & link preview, device view (phones, foldables, tablets), page editor,
 dark mode, custom CSS/JS, outlines & grids, screenshots, page images, cookies, JSON & encoder.
