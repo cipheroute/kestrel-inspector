@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ES2022",
+    "moduleDetection": "legacy",
+    "strict": true,
+    "noEmitOnError": true,
+    "removeComments": false,
+    "newLine": "lf",
+    "skipLibCheck": true,
+    "types": ["chrome"],
+    "rootDir": "src",
+    "outDir": "dist/firefox/js"
+  },
+  "include": ["src"]
+}

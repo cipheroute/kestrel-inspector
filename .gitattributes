@@ -1,0 +1,5 @@
+# Keep LF everywhere so a build from a fresh clone is byte-identical to the published package.
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.ttf binary

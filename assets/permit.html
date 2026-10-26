@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kestrel Inspector</title>
+<style>
+  @font-face { font-family: "InspectorDisplay"; src: url("fonts/Unbounded.ttf") format("truetype"); font-weight: 200 900; }
+  :root {
+    --bg: #1E1F23; --s3: #2F3036; --line: rgba(255,255,255,.08); --text: #ECEDF0; --muted: #A3A6AF; --accent: #93A8FF; --accentInk: #111526;
+    color-scheme: dark;
+  }
+  @media (prefers-color-scheme: light) {
+    :root { --bg: #F4F5F7; --s3: #E7E9EE; --line: rgba(16,18,24,.10); --text: #16171B; --muted: #585C66; --accent: #3B5BDB; --accentInk: #fff; color-scheme: light; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; background: var(--bg); color: var(--text); font: 14px/1.5 "Segoe UI Variable Text", "Segoe UI", -apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, system-ui, sans-serif; display: flex; flex-direction: column; gap: 16px; padding: 24px; }
+  h1 { margin: 0; font: 600 18px/1.3 "InspectorDisplay", system-ui, sans-serif; letter-spacing: -.01em; }
+  p { margin: 0; }
+  .muted { color: var(--muted); font-size: 13px; }
+  .box { padding: 12px 14px; border-radius: 12px; background: var(--s3); border: 1px solid var(--line); }
+  .box b { display: block; margin-bottom: 4px; }
+  .row { display: flex; gap: 8px; margin-top: auto; }
+  button { flex: 1; height: 40px; border-radius: 10px; border: 1px solid var(--line); background: var(--s3); color: var(--text); font: inherit; font-weight: 600; cursor: pointer; }
+  button.primary { background: var(--accent); color: var(--accentInk); border-color: transparent; }
+  button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+</style>
+</head>
+<body>
+  <h1 id="title"></h1>
+  <p id="why"></p>
+  <div class="box"><b id="whatLabel"></b><span id="what"></span></div>
+  <p class="muted" id="note"></p>
+  <div class="row">
+    <button id="cancel"></button>
+    <button id="allow" class="primary"></button>
+  </div>
+  <script src="js/content/i18n.js"></script>
+  <script src="js/permit.js"></script>
+</body>
+</html>

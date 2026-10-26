@@ -1,0 +1,22 @@
+{
+  "name": "inspector",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Free toolkit for web developers and designers",
+  "author": "cipheroute",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "watch": "node scripts/build.mjs --watch",
+    "lint": "web-ext lint --source-dir dist/firefox",
+    "zen": "web-ext run --source-dir dist/firefox --firefox=\"C:/Program Files/Zen Browser/zen.exe\" --firefox-profile=\"%APPDATA%/zen/Profiles/SuperDev\""
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.3.6",
+    "playwright": "^1.64.1",
+    "potrace": "^2.1.8",
+    "typescript": "^5.9.3",
+    "web-ext": "^10.8.0"
+  }
+}
