@@ -18,7 +18,7 @@ dark mode, custom CSS/JS, outlines & grids, screenshots, page images, cookies, J
 
 ## Install
 
-**Firefox / Zen:** from addons.mozilla.org (in review, link coming).
+**Firefox / Zen:** [Kestrel Inspector on addons.mozilla.org](https://addons.mozilla.org/firefox/addon/kestrel-inspector/), or download `kestrel-inspector-<version>-firefox.xpi` from [Releases](https://github.com/cipheroute/kestrel-inspector/releases/latest) and drag it into the browser window (it is signed by Mozilla).
 
 **Chrome, Edge, Brave, Opera, Vivaldi** (until the Chrome Web Store version):
 
@@ -26,6 +26,8 @@ dark mode, custom CSS/JS, outlines & grids, screenshots, page images, cookies, J
 2. Open `chrome://extensions` (in Edge: `edge://extensions`).
 3. Turn on **Developer mode** (top right).
 4. Click **Load unpacked** and choose the unzipped folder.
+
+**Firefox и Zen:** [страница в каталоге Mozilla](https://addons.mozilla.org/firefox/addon/kestrel-inspector/) или скачай `…-firefox.xpi` из [релизов](https://github.com/cipheroute/kestrel-inspector/releases/latest) и перетащи в окно браузера.
 
 **Установка в Chrome и подобных:** скачай `…-chrome.zip` из [релизов](https://github.com/cipheroute/kestrel-inspector/releases/latest), распакуй, открой `chrome://extensions`, включи «Режим разработчика» справа вверху, нажми «Загрузить распакованное» и выбери распакованную папку.
 
